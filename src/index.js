@@ -1,1 +1,10 @@
-console.log('hello');
+import React from 'react';
+import { render } from 'react-dom';
+
+const App = () => (
+  <div>
+    Initialized app.
+  </div>
+);
+
+render(<App />, document.getElementById('root'));
