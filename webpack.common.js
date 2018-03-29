@@ -12,7 +12,7 @@ const extractLess = new ExtractTextPlugin({
 });
 
 const config = {
-  entry: path.join(APP_DIR, 'index.js'),
+  entry: ['babel-polyfill', path.join(APP_DIR, 'index.js')],
   output: {
     filename: 'bundle.js',
     path: BUILD_DIR,
@@ -30,7 +30,18 @@ const config = {
           use: ['css-loader', 'less-loader'],
           fallback: 'style-loader',
         }),
-      }
+      },
+      {
+        test: /\.(png|jpg|gif)/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]'
+            }
+          },
+        ],
+      },
     ],
   },
   plugins: [
