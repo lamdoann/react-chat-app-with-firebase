@@ -1,10 +1,12 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { LoginPage } from '../pages';
+import { LoginPage, SignUpPage, HomePage } from '../pages';
 
 const RootRoute = () => (
   <Switch>
-    <Route path="/" component={LoginPage} />
+    <Route exact path="/" component={LoginPage} />
+    <Route path="/signup" component={SignUpPage} />
+    <Route path="/home" component={HomePage} />
   </Switch>
 );
 

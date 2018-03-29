@@ -3,6 +3,7 @@ import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_ERROR } from './actionTypes';
 const initialState = {
   isRequesting: false,
   isError: false,
+  isSuccess: false,
 };
 
 const reducer = function (state = initialState, action) {
@@ -15,6 +16,7 @@ const reducer = function (state = initialState, action) {
         ...payloads,
         isRequesting: true,
         isError: false,
+        isSuccess: false,
       };
     }
 
@@ -24,6 +26,7 @@ const reducer = function (state = initialState, action) {
         ...payloads,
         isRequesting: false,
         isError: false,
+        isSuccess: true,
       };
     }
 
@@ -33,6 +36,7 @@ const reducer = function (state = initialState, action) {
         ...payloads,
         isRequesting: false,
         isError: true,
+        isSuccess: false,
       }
     }
 
