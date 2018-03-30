@@ -1,9 +1,9 @@
 import { SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_ERROR } from './actionTypes';
 
-const createRequest = ({ username, password, fullname }) => (
+const createRequest = ({ email, password, fullname }) => (
   {
     type: SIGNUP_REQUEST,
-    username,
+    email,
     password,
     fullname,
   }
