@@ -1,4 +1,4 @@
-import { SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_ERROR } from './actionTypes';
+import { SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_ERROR, SIGNUP_VALIDATED } from './actionTypes';
 
 const initialState = {
   isRequesting: false,
@@ -37,6 +37,14 @@ const reducer = (state = initialState, action) => {
         isSuccess: false,
         ...payloads,
       };
+    }
+
+    case SIGNUP_VALIDATED: {
+      return {
+        ...state,
+        isError: false,
+        isValidated: true,
+      }
     }
 
     default: 

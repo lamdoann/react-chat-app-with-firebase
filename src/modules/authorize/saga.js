@@ -3,9 +3,14 @@ import { LOGIN_REQUEST, LOGIN_ERROR, LOGOUT } from './actionTypes';
 import { createSuccess, createError } from './actions';
 import { firebase } from '../../api';
 
-function* login() {
+function* login(email, password, authType) {
   try {
-    const user = yield call(firebase.signInWithPopup);
+    let user = null;
+    if (authType === 'google') {
+      user = yield call(firebase.signInWithPopup);
+    } else {
+      user = yield call(firebase.signInWithEmail, email, password);
+    }
     yield put(createSuccess(user));
   } catch (error) {
     yield put(createError(error));
@@ -18,8 +23,8 @@ function* login() {
 
 function* authorizeFlow() {
   while (true) {
-    yield take(LOGIN_REQUEST);
-    const task = yield fork(login);
+    const { email, password, authType } = yield take(LOGIN_REQUEST);
+    const task = yield fork(login, email, password, authType);
     const action = yield take([LOGOUT, LOGIN_ERROR]);
     if (action.type === LOGOUT) {
       yield cancel(task);

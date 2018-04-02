@@ -5,12 +5,9 @@ import { firebase } from '../../api'
 
 function* signUp(action) {
   try {
-    // const user = firebase
     const user = yield call(firebase.createUser, action);
-    console.log('user', user);
     yield put(createSuccess());
   } catch (error) {
-    console.log('error', error);
     yield put(createError(error));
   }
 }

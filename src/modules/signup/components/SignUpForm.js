@@ -2,23 +2,43 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Grid, Header, Segment, Form, Button, Message, Dimmer, Loader } from 'semantic-ui-react';
-import { createRequest } from '../actions';
+import { createRequest, createError, createSuccess, createValidator } from '../actions';
+import combineValidators, { createValidatorWith, isRequired, isEmail, withValidatorHandler } from '../../../helper/validators';
 
 class SignUpForm extends Component {
   constructor(props) {
     super(props);
     this.onClick = this.onClick.bind(this);
+    this.validatorHandler = this.validatorHandler.bind(this);
   }
 
-  onClick() {
-    const fakeUser = { email: 'iamlamdoan@gmail.com', password: '123456', fullname: 'Lam Doan' };
-    this.props.onClick(fakeUser);
+  onClick(e) {
+    e.preventDefault();
+    const { fullname, email, password } = this;
+    this.props.onClick({
+      fullname,
+      email,
+      password,
+    });
+  }
+
+  validatorHandler(message) {
+    if (message) {
+      this.props.onError({ message });
+    } else {
+      this.props.onValidator();
+    }
+  }
+
+  componentWillReceiveProps() {
+    console.log('update props');
   }
 
   render() {
     const { isSuccess, isRequesting, isError, message } = this.props;
-    console.log(isSuccess, isError, message);
+
     return (
       <div className='signup-form'>
         <Dimmer active={isRequesting}>
@@ -42,6 +62,7 @@ class SignUpForm extends Component {
                   placeholder='full name'
                   fluid
                   required
+                  onChange={(event) => { this.fullname = String(event.target.value).trim() }}
                 />
                 <Form.Input
                   type='email'
@@ -50,6 +71,7 @@ class SignUpForm extends Component {
                   placeholder='email'
                   fluid
                   required
+                  onChange={(event) => { this.email = String(event.target.value).trim() }}
                 />
                 <Form.Input
                   type='password'
@@ -58,6 +80,7 @@ class SignUpForm extends Component {
                   placeholder='password'
                   fluid
                   required
+                  onChange={(event) => { this.password = String(event.target.value).trim() }}
                 />
                 <Button
                   fluid
@@ -67,7 +90,10 @@ class SignUpForm extends Component {
                 >
                   Create a new account
                 </Button>
-                <Message success content='Your account has been created.'/>
+                <Message success>
+                  Your account has been created.
+                  <Link to='/' replace>{' Login '}</Link>
+                </Message>
                 <Message error content={message}/>
               </Segment>
             </Form>
@@ -94,6 +120,8 @@ const mapStateToProps = (state) => (
 const mapDispatchToProps = (dispatch) => (
   {
     onClick: bindActionCreators(createRequest, dispatch),
+    onError: bindActionCreators(createError, dispatch),
+    onValidator: bindActionCreators(createValidator, dispatch),
   }
 );
 

@@ -1,8 +1,11 @@
 import { LOGIN_REQUEST, LOGIN_ERROR, LOGIN_SUCCESS } from './actionTypes';
 
-export const createRequest = () => (
+export const createRequest = (authType, { email, password }) => (
   {
     type: LOGIN_REQUEST,
+    email,
+    password,
+    authType,
   }
 );
 

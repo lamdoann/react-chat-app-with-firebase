@@ -1,4 +1,4 @@
-import { SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_ERROR } from './actionTypes';
+import { SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_ERROR, SIGNUP_VALIDATED } from './actionTypes';
 
 const createRequest = ({ email, password, fullname }) => (
   {
@@ -22,4 +22,10 @@ const createError = ({ message }) => (
   }
 );
 
-export { createRequest, createSuccess, createError };
+const createValidator = () => (
+  {
+    type: SIGNUP_VALIDATED,
+  }
+)
+
+export { createRequest, createSuccess, createError, createValidator };
