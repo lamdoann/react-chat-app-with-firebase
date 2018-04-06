@@ -30,3 +30,12 @@ export const createError = (error) => {
 };
 
 
+function thunk(username) {
+  return (dispatch) => {
+    dispatch(createRequest());
+
+    api(() => dispatch(createSuccess()))
+  }
+}
+
+

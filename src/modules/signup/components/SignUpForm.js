@@ -32,13 +32,8 @@ class SignUpForm extends Component {
     }
   }
 
-  componentWillReceiveProps() {
-    console.log('update props');
-  }
-
   render() {
     const { isSuccess, isRequesting, isError, message } = this.props;
-
     return (
       <div className='signup-form'>
         <Dimmer active={isRequesting}>
@@ -125,6 +120,4 @@ const mapDispatchToProps = (dispatch) => (
   }
 );
 
-SignUpForm = connect(mapStateToProps, mapDispatchToProps)(SignUpForm);
-
-export default SignUpForm;
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpForm);

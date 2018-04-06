@@ -7,39 +7,26 @@ import { Button, Form, Segment, Grid, Message, Header, Divider, Icon, Dimmer, Lo
 import { createRequest as requestLogin } from '../actions';
 import imageSources from '../../../assets/images';
 
-const mapStateToProps = (state) => (
-  {
-    isRequesting: state.authorization.isRequesting,
-    isSuccess: state.authorization.isSuccess,
-  }
-);
-
-const mapDispatchToProps = (dispatch) => (
-  {
-    onClick: bindActionCreators(requestLogin, dispatch),
-  }
-);
-
 class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.authenticateWithEmail = this.authenticateWithEmail.bind(this);
     this.authenticateWithGoogle = this.authenticateWithGoogle.bind(this);
   }
-
+  
   authenticateWithGoogle(event) {
     event.preventDefault();
     this.props.onClick('google', {});
   }
-
+  
   authenticateWithEmail(event) {
     event.preventDefault();
     const { email, password } = this;
     this.props.onClick('email', { email, password });
   }
-
+  
   render() {
-    const { isRequesting, isSuccess } = this.props;
+    const { isRequesting, isSuccess, isError } = this.props;
     if (isSuccess) {
       return (<Redirect to='/home' />)
     }
@@ -53,7 +40,7 @@ class LoginForm extends React.Component {
           textAlign='center'
           verticalAlign='middle'
           style={{ height: '100%' }}
-        >
+          >
           <Grid.Column style={{ maxWidth: 400 }}>
             <Header as='h2' color='teal' textAlign='center'>
               <Image src={imageSources.logo} />
@@ -68,7 +55,7 @@ class LoginForm extends React.Component {
                 iconPosition='left'
                 placeholder='email'
                 onChange={(event) => { this.email = String(event.target.value).trim() }}
-              />
+                />
               <Form.Input
                 fluid
                 type='password'
@@ -76,7 +63,7 @@ class LoginForm extends React.Component {
                 iconPosition='left'
                 placeholder='password'
                 onChange={(event) => { this.password = String(event.target.value).trim() }}
-              />
+                />
               <Button animated fluid basic color='teal' size='medium' onClick={this.authenticateWithEmail}>Login</Button>
               <Divider horizontal>or</Divider>
               <Button fluid color='google plus' size='medium' onClick={this.authenticateWithGoogle}>
@@ -95,6 +82,17 @@ class LoginForm extends React.Component {
   }
 }
 
-LoginForm = connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+const mapStateToProps = (state) => (
+  {
+    isRequesting: state.authorization.isRequesting,
+    isSuccess: state.authorization.isSuccess,
+  }
+);
 
-export default LoginForm;
+const mapDispatchToProps = (dispatch) => (
+  {
+    onClick: bindActionCreators(requestLogin, dispatch),
+  }
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

@@ -1,7 +1,7 @@
 import { take, fork, call, put, cancel, cancelled } from 'redux-saga/effects';
 import { LOGIN_REQUEST, LOGIN_ERROR, LOGOUT } from './actionTypes';
 import { createSuccess, createError } from './actions';
-import { firebase } from '../../api';
+import { firebase, database } from '../../api';
 
 function* login(email, password, authType) {
   try {
@@ -11,6 +11,7 @@ function* login(email, password, authType) {
     } else {
       user = yield call(firebase.signInWithEmail, email, password);
     }
+    // const saved = yield call(database.saveUser, user);
     yield put(createSuccess(user));
   } catch (error) {
     yield put(createError(error));
