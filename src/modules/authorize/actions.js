@@ -1,4 +1,24 @@
-import { LOGIN_REQUEST, LOGIN_ERROR, LOGIN_SUCCESS } from './actionTypes';
+import { LOGIN, LOGIN_REQUEST, LOGIN_ERROR, LOGIN_SUCCESS } from './actionTypes';
+
+export const onLogin = ({ authType, email, password }) => (
+  {
+    type: LOGIN,
+    authType,
+    email,
+    password,
+  }
+);
+
+export const onSuccess = (user) => (
+  {
+    type: LOGIN_SUCCESS,
+    displayName,
+    email,
+    photoURL,
+    uid,
+    token
+  }
+);
 
 export const createRequest = (authType, { email, password }) => (
   {
@@ -28,14 +48,3 @@ export const createError = (error) => {
     message,
   };
 };
-
-
-function thunk(username) {
-  return (dispatch) => {
-    dispatch(createRequest());
-
-    api(() => dispatch(createSuccess()))
-  }
-}
-
-

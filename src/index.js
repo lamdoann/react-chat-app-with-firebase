@@ -2,6 +2,7 @@ import React from 'react';
 import createSagaMiddleware from 'redux-saga';
 import { render } from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
+import { createLogger } from 'redux-logger';
 
 import App from './App';
 import rootReducer from './modules/rootReducer';
@@ -10,6 +11,7 @@ import { firebaseConfig } from './config';
 import { firebase } from './api';
 import { actions } from './modules/authorize';
 
+const logger = createLogger();
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
 

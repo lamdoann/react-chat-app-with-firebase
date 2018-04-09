@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
 import { Button, Form, Segment, Grid, Message, Header, Divider, Icon, Dimmer, Loader, Image } from 'semantic-ui-react';
-import { createRequest as requestLogin } from '../actions';
+import { onLogin } from '../actions';
+import { getAuthorization, getLoginForm } from '../selectors';
 import imageSources from '../../../assets/images';
 
 class LoginForm extends React.Component {
@@ -16,17 +17,17 @@ class LoginForm extends React.Component {
   
   authenticateWithGoogle(event) {
     event.preventDefault();
-    this.props.onClick('google', {});
+    this.props.onClick({ authType: 'google' });
   }
   
   authenticateWithEmail(event) {
     event.preventDefault();
     const { email, password } = this;
-    this.props.onClick('email', { email, password });
+    this.props.onClick({ authType: 'email', email, password });
   }
   
   render() {
-    const { isRequesting, isSuccess, isError } = this.props;
+    const { isRequesting, isSuccess, isError, message } = this.props.loginForm;
     if (isSuccess) {
       return (<Redirect to='/home' />)
     }
@@ -46,7 +47,7 @@ class LoginForm extends React.Component {
               <Image src={imageSources.logo} />
               {' '} Firebase Chat
             </Header>
-            <Form size='large'>
+            <Form size='large' error={isError} >
              <Segment stacked>
               <Form.Input
                 fluid
@@ -70,6 +71,7 @@ class LoginForm extends React.Component {
                 <Icon name='google plus' /> 
                 Google
               </Button>
+              <Message error content={message} />
              </Segment>
             </Form>
             <Message>
@@ -84,14 +86,13 @@ class LoginForm extends React.Component {
 
 const mapStateToProps = (state) => (
   {
-    isRequesting: state.authorization.isRequesting,
-    isSuccess: state.authorization.isSuccess,
+    loginForm: getLoginForm(state),
   }
 );
 
 const mapDispatchToProps = (dispatch) => (
   {
-    onClick: bindActionCreators(requestLogin, dispatch),
+    onClick: bindActionCreators(onLogin, dispatch),
   }
 );
 
