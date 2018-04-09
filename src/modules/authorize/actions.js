@@ -16,35 +16,7 @@ export const onSuccess = (user) => (
     email,
     photoURL,
     uid,
-    token
+    token,
   }
 );
 
-export const createRequest = (authType, { email, password }) => (
-  {
-    type: LOGIN_REQUEST,
-    email,
-    password,
-    authType,
-  }
-);
-
-export const createSuccess = (user) => {
-  const { displayName, email, photoURL, uid } = user;
-  return {
-    type: LOGIN_SUCCESS,
-    displayName,
-    email,
-    photoURL,
-    uid,
-  };
-};
-
-export const createError = (error) => {
-  const { code, message } = error;
-  return {
-    type: LOGIN_ERROR,
-    code,
-    message,
-  };
-};

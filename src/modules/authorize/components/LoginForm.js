@@ -23,13 +23,13 @@ class LoginForm extends React.Component {
   authenticateWithEmail(event) {
     event.preventDefault();
     const { email, password } = this;
-    this.props.onClick({ authType: 'email', email, password });
+    this.props.onClick({ email, password, authType: 'email' });
   }
   
   render() {
     const { isRequesting, isSuccess, isError, message } = this.props.loginForm;
     if (isSuccess) {
-      return (<Redirect to='/home' />)
+      return (<Redirect to='/home' />);
     }
     
     return (
@@ -41,13 +41,13 @@ class LoginForm extends React.Component {
           textAlign='center'
           verticalAlign='middle'
           style={{ height: '100%' }}
-          >
+        >
           <Grid.Column style={{ maxWidth: 400 }}>
             <Header as='h2' color='teal' textAlign='center'>
               <Image src={imageSources.logo} />
               {' '} Firebase Chat
             </Header>
-            <Form size='large' error={isError} >
+            <Form size='large' error={isError}>
              <Segment stacked>
               <Form.Input
                 fluid
@@ -56,7 +56,7 @@ class LoginForm extends React.Component {
                 iconPosition='left'
                 placeholder='email'
                 onChange={(event) => { this.email = String(event.target.value).trim() }}
-                />
+              />
               <Form.Input
                 fluid
                 type='password'
@@ -64,7 +64,7 @@ class LoginForm extends React.Component {
                 iconPosition='left'
                 placeholder='password'
                 onChange={(event) => { this.password = String(event.target.value).trim() }}
-                />
+              />
               <Button animated fluid basic color='teal' size='medium' onClick={this.authenticateWithEmail}>Login</Button>
               <Divider horizontal>or</Divider>
               <Button fluid color='google plus' size='medium' onClick={this.authenticateWithGoogle}>
